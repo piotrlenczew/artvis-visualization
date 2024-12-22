@@ -1,19 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>World exhibitions 1905-1915</title>
-        <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
-    </head>
-    <body>
-        <h1>Art Exhibitions Around the World between 1905 and 1915</h1>
-        <div id="vis"></div>
-        <script type="text/javascript">
-            const spec = {
-              "url": "https://piotrlenczew.github.io/artvis-visualization/visualization.json"
-            };
-            vegaEmbed('#vis', spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
-        </script>
-    </body>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+</head>
+<body>
+  <div id="vis"/>
+  <script>
+    const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "values": [
+      {"a": "C", "b": 2},
+      {"a": "C", "b": 7},
+      {"a": "C", "b": 4},
+      {"a": "D", "b": 1},
+      {"a": "D", "b": 2},
+      {"a": "D", "b": 6},
+      {"a": "E", "b": 8},
+      {"a": "E", "b": 4},
+      {"a": "E", "b": 7}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "y": {"field": "a", "type": "nominal"},
+    "x": {
+      "aggregate": "average",
+      "field": "b",
+      "type": "quantitative",
+      "title": "Mean of b"
+    }
+  },
+  "config": {}
+};
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+</body>
 </html>
