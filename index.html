@@ -10,10 +10,19 @@
   <h1>Art Exhibitions Around the World between 1905 and 1915</h1>
   <div id="vis"/>
   <script>
-    const spec = {
-      "url": "https://piotrlenczew.github.io/artvis-visualization/visualization.json"
-    };
-    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+    fetch('https://piotrlenczew.github.io/artvis-visualization/visualization.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(spec => {
+        vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+      })
+      .catch(error => {
+        console.error("Error fetching the Vega-Lite specification:", error);
+      });
   </script>
 </body>
 </html>
