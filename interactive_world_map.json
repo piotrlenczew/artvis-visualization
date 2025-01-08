@@ -124,6 +124,17 @@
       ]
     },
     {
+      "name": "maxExhibitionCount",
+      "source": "countryYearExhibitionCounts",
+      "transform": [
+        {
+          "type": "extent",
+          "field": "exhibition_count",
+          "signal": "maxExhibitionExtent"
+        }
+      ]
+    },
+    {
       "name": "filteredByYearCountryExhibitionCounts",
       "source": "countryYearExhibitionCounts",
       "transform": [
@@ -156,7 +167,7 @@
     {
       "name": "colorScale",
       "type": "linear",
-      "domain": {"data": "countries_with_data", "field": "exhibition_count"},
+      "domain": {"signal": "maxExhibitionExtent"},
       "range": ["#f7fbff", "#08306b"],
       "zero": true
     }
