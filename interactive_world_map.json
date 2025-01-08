@@ -97,29 +97,39 @@
     },
     {
       "name": "exhibitions",
-      "url": ".exhibitions_with_countries.csv",
+      "url": "./exhibitions_with_countries.csv",
       "format": {"type": "csv"}
     },
     {
-      "name": "filteredExhibitions",
+      "name": "exhibitionsWithoutVenues",
       "source": "exhibitions",
       "transform": [
         {
-          "type": "filter",
-          "expr": "datum.startdate && datum.startdate == selectedYear"
+          "type": "aggregate",
+          "groupby": ["country_id", "country", "startdate", "title"]
         }
       ]
     },
     {
-      "name": "countryExhibitionCounts",
-      "source": "filteredExhibitions",
+      "name": "countryYearExhibitionCounts",
+      "source": "exhibitionsWithoutVenues",
       "transform": [
         {
           "type": "aggregate",
-          "groupby": ["country_id"],
+          "groupby": ["country_id", "country", "startdate"],
+          "fields": ["exhibition_count"],
           "ops": ["count"],
-          "fields": ["id"],
           "as": ["exhibition_count"]
+        }
+      ]
+    },
+    {
+      "name": "filteredByYearCountryExhibitionCounts",
+      "source": "countryYearExhibitionCounts",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.startdate && datum.startdate == selectedYear"
         }
       ]
     },
@@ -129,7 +139,7 @@
       "transform": [
         {
           "type": "lookup",
-          "from": "countryExhibitionCounts",
+          "from": "filteredByYearCountryExhibitionCounts",
           "key": "country_id",
           "fields": ["id"],
           "as": ["exhibition_data"]
@@ -139,7 +149,7 @@
           "as": "exhibition_count",
           "expr": "datum.exhibition_data ? datum.exhibition_data.exhibition_count : 0"
         }
-      ],
+      ]
     }
   ],
   "scales": [
