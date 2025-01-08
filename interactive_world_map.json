@@ -187,5 +187,12 @@
       "transform": [{"type": "geoshape", "projection": "projection"}]
     }
   ],
+  "legends": [
+    {
+      "fill": "colorScale",
+      "title": "Exhibition Count",
+      "orient": "none"
+    }
+  ],
   "config": {}
 }
