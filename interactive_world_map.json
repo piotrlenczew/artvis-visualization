@@ -66,6 +66,17 @@
           "update": "clamp(angles[1] + delta[1], -70, 70)"
         }
       ]
+    },
+    {
+      "name": "selectedYear",
+      "value": 1902,
+      "bind": {
+        "input": "range",
+        "min": 1902,
+        "max": 1916,
+        "step": 1,
+        "name": "Year: "
+      }
     }
   ],
   "projections": [
@@ -86,12 +97,22 @@
     },
     {
       "name": "exhibitions",
-      "url": "./exhibitions_with_countries.csv",
+      "url": ".exhibitions_with_countries.csv",
       "format": {"type": "csv"}
     },
     {
-      "name": "countryExhibitionCounts",
+      "name": "filteredExhibitions",
       "source": "exhibitions",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.startdate && datum.startdate == selectedYear"
+        }
+      ]
+    },
+    {
+      "name": "countryExhibitionCounts",
+      "source": "filteredExhibitions",
       "transform": [
         {
           "type": "aggregate",
@@ -118,7 +139,7 @@
           "as": "exhibition_count",
           "expr": "datum.exhibition_data ? datum.exhibition_data.exhibition_count : 0"
         }
-      ]
+      ],
     }
   ],
   "scales": [
@@ -139,7 +160,8 @@
           "fill": {"scale": "colorScale", "field": "exhibition_count"},
           "stroke": {"value": "#ffffff"},
           "strokeWidth": {"value": 0.5}
-        }
+        },
+        "update": {"fill": {"scale": "colorScale", "field": "exhibition_count"}}
       },
       "transform": [{"type": "geoshape", "projection": "projection"}]
     }
