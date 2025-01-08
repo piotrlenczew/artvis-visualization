@@ -83,15 +83,60 @@
       "name": "countries",
       "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
       "format": {"type": "topojson", "feature": "countries"}
+    },
+    {
+      "name": "exhibitions",
+      "url": "./exhibitions_with_countries.csv",
+      "format": {"type": "csv"}
+    },
+    {
+      "name": "countryExhibitionCounts",
+      "source": "exhibitions",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["country_id"],
+          "ops": ["count"],
+          "fields": ["id"],
+          "as": ["exhibition_count"]
+        }
+      ]
+    },
+    {
+      "name": "countries_with_data",
+      "source": "countries",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "countryExhibitionCounts",
+          "key": "country_id",
+          "fields": ["id"],
+          "as": ["exhibition_data"]
+        },
+        {
+          "type": "formula",
+          "as": "exhibition_count",
+          "expr": "datum.exhibition_data ? datum.exhibition_data.exhibition_count : 0"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "colorScale",
+      "type": "linear",
+      "domain": {"data": "countries_with_data", "field": "exhibition_count"},
+      "range": ["#f7fbff", "#08306b"],
+      "zero": true
     }
   ],
   "marks": [
     {
       "type": "shape",
-      "from": {"data": "countries"},
+      "from": {"data": "countries_with_data"},
       "encode": {
         "enter": {
-          "fill": {"value": "#87CEEB"},
+          "fill": {"scale": "colorScale", "field": "exhibition_count"},
           "stroke": {"value": "#ffffff"},
           "strokeWidth": {"value": 0.5}
         }
