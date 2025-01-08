@@ -77,6 +77,16 @@
         "step": 1,
         "name": "Year: "
       }
+    },
+    {
+      "name": "clickedCountry",
+      "value": 4,
+      "on": [
+        {
+          "events": "shape:click",
+          "update": "datum.id"
+        }
+      ]
     }
   ],
   "projections": [
@@ -106,7 +116,7 @@
       "transform": [
         {
           "type": "aggregate",
-          "groupby": ["country_id", "country", "startdate", "title"]
+          "groupby": ["country_id", "country", "startdate", "title", "city"]
         }
       ]
     },
@@ -114,6 +124,10 @@
       "name": "countryYearExhibitionCounts",
       "source": "exhibitionsWithoutVenues",
       "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["country_id", "country", "startdate", "title"]
+        },
         {
           "type": "aggregate",
           "groupby": ["country_id", "country", "startdate"],
@@ -161,6 +175,30 @@
           "expr": "datum.exhibition_data ? datum.exhibition_data.exhibition_count : 0"
         }
       ]
+    },
+    {
+      "name": "cityExhibitionCounts",
+      "source": "exhibitionsWithoutVenues",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.startdate && datum.startdate == selectedYear"
+        },
+        {
+          "type": "filter",
+          "expr": "datum.country_id == clickedCountry"
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["city"],
+          "ops": ["count"],
+          "as": ["exhibition_count"]
+        },
+        {
+          "type": "collect",
+          "sort": {"field": "exhibition_count", "order": "descending"}
+        }
+      ]
     }
   ],
   "scales": [
@@ -170,8 +208,33 @@
       "domain": {"signal": "maxExhibitionExtent"},
       "range": ["#f7fbff", "#08306b"],
       "zero": true
+    },
+    {
+      "name": "xscaleCountry",
+      "type": "band",
+      "domain": {"data": "cityExhibitionCounts", "field": "city"},
+      "range": [0, 400],
+      "padding": 0.1
+    },
+    {
+      "name": "yscaleCountry",
+      "type": "linear",
+      "domain": {"data": "cityExhibitionCounts", "field": "exhibition_count"},
+      "range": [200, 0],
+      "nice": true
     }
   ],
+  "marks": [
+    {
+  "type": "group",
+  "encode": {
+    "enter": {
+      "x": {"value": 50}, 
+      "y": {"value": 50}, 
+      "width": {"value": 400}, 
+      "height": {"value": 400}
+    }
+  },
   "marks": [
     {
       "type": "shape",
@@ -185,6 +248,65 @@
         "update": {"fill": {"scale": "colorScale", "field": "exhibition_count"}}
       },
       "transform": [{"type": "geoshape", "projection": "projection"}]
+    }
+  ]
+},
+    {
+      "type": "group",
+      "encode": {
+        "enter": {
+          "x": {"value": 500},
+          "y": {"value": 50},
+          "width": {"value": 400},
+          "height": {"value": 200}
+        }
+      },
+      "marks": [
+        {
+          "type": "rect",
+          "from": {"data": "cityExhibitionCounts"},
+          "encode": {
+            "enter": {
+              "x": {"scale": "xscaleCountry", "field": "city"},
+              "width": {"scale": "xscaleCountry", "band": 1},
+              "y": {"scale": "yscaleCountry", "field": "exhibition_count"},
+              "y2": {"scale": "yscaleCountry", "value": 0},
+              "fill": {"value": "#4682b4"}
+            }
+          }
+        },
+        {
+          "type": "text",
+          "from": {"data": "cityExhibitionCounts"},
+          "encode": {
+            "enter": {
+              "x": {
+                "scale": "xscaleCountry",
+                "field": "city",
+                "band": 0.5
+              },
+              "y": {"scale": "yscaleCountry", "field": "exhibition_count", "offset": -5},
+              "text": {"field": "exhibition_count"},
+              "align": {"value": "center"},
+              "baseline": {"value": "bottom"},
+              "fill": {"value": "black"}
+            }
+          }
+        }
+      ],
+      "axes": [
+        {
+          "scale": "xscaleCountry",
+          "orient": "bottom",
+          "title": "City",
+          "labelAngle": -45
+        },
+        {
+          "scale": "yscaleCountry",
+          "orient": "left",
+          "title": "Exhibition Count"
+        }
+      ]
     }
   ],
   "legends": [
