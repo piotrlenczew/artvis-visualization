@@ -226,31 +226,31 @@
   ],
   "marks": [
     {
-  "type": "group",
-  "encode": {
-    "enter": {
-      "x": {"value": 50}, 
-      "y": {"value": 50}, 
-      "width": {"value": 400}, 
-      "height": {"value": 400}
-    }
-  },
-  "marks": [
-    {
-      "type": "shape",
-      "from": {"data": "countries_with_data"},
+      "type": "group",
       "encode": {
         "enter": {
-          "fill": {"scale": "colorScale", "field": "exhibition_count"},
-          "stroke": {"value": "#ffffff"},
-          "strokeWidth": {"value": 0.5}
-        },
-        "update": {"fill": {"scale": "colorScale", "field": "exhibition_count"}}
+          "x": {"value": 50}, 
+          "y": {"value": 50}, 
+          "width": {"value": 400}, 
+          "height": {"value": 400}
+        }
       },
-      "transform": [{"type": "geoshape", "projection": "projection"}]
-    }
-  ]
-},
+      "marks": [
+        {
+          "type": "shape",
+          "from": {"data": "countries_with_data"},
+          "encode": {
+            "enter": {
+              "fill": {"scale": "colorScale", "field": "exhibition_count"},
+              "stroke": {"value": "#ffffff"},
+              "strokeWidth": {"value": 0.5}
+            },
+          "update": {"fill": {"scale": "colorScale", "field": "exhibition_count"}}
+          },
+          "transform": [{"type": "geoshape", "projection": "projection"}]
+        }
+      ]
+    },
     {
       "type": "group",
       "encode": {
@@ -272,7 +272,17 @@
               "y": {"scale": "yscaleCountry", "field": "exhibition_count"},
               "y2": {"scale": "yscaleCountry", "value": 0},
               "fill": {"value": "#4682b4"}
-            }
+            },
+            "update": {
+            "x": {"scale": "xscaleCountry", "field": "city"},
+            "width": {"scale": "xscaleCountry", "band": 1},
+            "y": {"scale": "yscaleCountry", "field": "exhibition_count"},
+            "y2": {"scale": "yscaleCountry", "value": 0},
+            "fillOpacity": {"value": 1}
+          },
+          "exit": {
+            "fillOpacity": {"value": 1}
+          }
           }
         },
         {
@@ -290,6 +300,15 @@
               "align": {"value": "center"},
               "baseline": {"value": "bottom"},
               "fill": {"value": "black"}
+            },
+            "update": {
+              "x": {"scale": "xscaleCountry", "field": "city", "band": 0.5},
+              "y": {"scale": "yscaleCountry", "field": "exhibition_count", "offset": -5},
+              "text": {"field": "exhibition_count"},
+              "fillOpacity": {"value": 1}
+            },
+            "exit": {
+              "fillOpacity": {"value": 0}
             }
           }
         }
