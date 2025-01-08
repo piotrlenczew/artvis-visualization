@@ -116,7 +116,7 @@
       "transform": [
         {
           "type": "aggregate",
-          "groupby": ["country_id", "country", "startdate", "title", "city"]
+          "groupby": ["country_id", "country", "startdate", "title", "city", "title", "type"]
         }
       ]
     },
@@ -190,9 +190,16 @@
         },
         {
           "type": "aggregate",
-          "groupby": ["city"],
+          "groupby": ["city", "type"],
           "ops": ["count"],
           "as": ["exhibition_count"]
+        },
+        {
+          "type": "stack",
+          "groupby": ["city"],
+          "field": "exhibition_count",
+          "sort": {"field": "type"},
+          "as": ["y0", "y1"]
         },
         {
           "type": "collect",
@@ -222,6 +229,12 @@
       "domain": {"data": "cityExhibitionCounts", "field": "exhibition_count"},
       "range": [200, 0],
       "nice": true
+    },
+    {
+      "name": "colorTypeScale",
+      "type": "ordinal",
+      "domain": {"data": "cityExhibitionCounts", "field": "type"},
+      "range": {"scheme": "category10"}
     }
   ],
   "marks": [
@@ -269,15 +282,15 @@
             "enter": {
               "x": {"scale": "xscaleCountry", "field": "city"},
               "width": {"scale": "xscaleCountry", "band": 1},
-              "y": {"scale": "yscaleCountry", "field": "exhibition_count"},
-              "y2": {"scale": "yscaleCountry", "value": 0},
-              "fill": {"value": "#4682b4"}
+              "y": {"scale": "yscaleCountry", "field": "y1"},
+              "y2": {"scale": "yscaleCountry", "field": "y0"},
+              "fill": {"scale": "colorTypeScale", "field": "type"}
             },
             "update": {
             "x": {"scale": "xscaleCountry", "field": "city"},
             "width": {"scale": "xscaleCountry", "band": 1},
-            "y": {"scale": "yscaleCountry", "field": "exhibition_count"},
-            "y2": {"scale": "yscaleCountry", "value": 0},
+            "y": {"scale": "yscaleCountry", "field": "y1"},
+            "y2": {"scale": "yscaleCountry", "field": "y0"},
             "fillOpacity": {"value": 1}
           },
           "exit": {
@@ -332,6 +345,11 @@
     {
       "fill": "colorScale",
       "title": "Exhibition Count",
+      "orient": "none"
+    },
+    {
+      "fill": "colorTypeScale",
+      "title": "Exhibition Type",
       "orient": "none"
     }
   ],
