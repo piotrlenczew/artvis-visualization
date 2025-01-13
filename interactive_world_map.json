@@ -371,8 +371,8 @@
       "encode": {
         "legend": {
           "enter": {
-            "x": {"value": 800},
-            "y": {"value": 50}
+            "x": {"value": 950},
+            "y": {"value": 220}
           }
         }
       }
