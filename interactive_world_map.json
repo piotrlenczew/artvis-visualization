@@ -88,10 +88,28 @@
         }
       ]
     },
-   {
+    {
       "name": "currentPage",
-      "value": 1
-   }
+      "value": 1,
+      "on": [
+        {
+          "events": {"type": "click", "marktype": "rect", "markname": "prevButton"},
+          "update": "currentPage - 1"
+        },
+        {
+          "events": {"type": "click", "marktype": "rect", "markname": "nextButton"},
+          "update": "currentPage + 1"
+        },
+        {
+          "events": {"type": "click", "marktype": "text", "markname": "prevButtonText"},
+          "update": "currentPage - 1"
+        },
+        {
+          "events": {"type": "click", "marktype": "text", "markname": "nextButtonText"},
+          "update": "currentPage + 1"
+        }
+      ]
+    }
   ],
   "projections": [
     {
@@ -459,6 +477,7 @@
         },
         {
           "type": "rect",
+          "name": "prevButton",
           "encode": {
             "enter": {
               "x": {"value": 5},
@@ -467,25 +486,15 @@
               "height": {"value": 30},
               "fill": {"value": "#ccc"},
               "cornerRadius": {"value": 5}
-            },
-            "update": {
-              "fill": {"value": "#007bff"}
             }
           },
-          "signals": [
-          {
-            "name": "currentPage",
-            "on": [
-                {
-                  "events": "pointerdown",
-                  "update": "currentPage - 1"
-                }
-              ]
+          "update": {
+              "fill": {"value": "#007bff"}
             }
-          ]
         },
         {
           "type": "text",
+          "name": "prevButtonText",
           "encode": {
             "enter": {
               "x": {"value": 20},
@@ -499,6 +508,7 @@
         },
         {
           "type": "rect",
+          "name": "nextButton",
           "encode": {
             "enter": {
               "x": {"value": 275},
@@ -511,21 +521,11 @@
             "update": {
               "fill": {"value": "#28a745"}
             }
-          },
-          "signals": [
-          {
-            "name": "currentPage",
-            "on": [
-                {
-                  "events": "pointerdown",
-                  "update": "currentPage + 1"
-                }
-              ]
-            }
-          ]
+          }
         },
         {
           "type": "text",
+          "name": "nextButtonText",
           "encode": {
             "enter": {
               "x": {"value": 307},
