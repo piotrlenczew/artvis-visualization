@@ -453,86 +453,116 @@
      ]
    },
    {
-  "type": "group",
-  "encode": {
-    "enter": {
-      "x": {"value": 0},
-      "y": {"value": 0},
-      "width": {"value": 400},
-      "height": {"value": 100}
-    }
-  },
-  "marks": [
-    {
-      "type": "rect",
+      "type": "group",
       "encode": {
         "enter": {
-          "x": {"value": 0},
-          "width": {"value": 100},
-          "height": {"value": 30},
-          "fill": {"value": "#ccc"},
-          "cornerRadius": {"value": 5}
-        },
-        "update": {
-          "fill": {"value": "#007bff"}
+          "x": {"value": 650},
+          "y": {"value": 50},
+          "width": {"value": 380},
+          "height": {"value": 150},
+          "fill": {"value": "#fff"},
+          "stroke": {"value": "#000"},
+          "strokeWidth": {"value": 1},
+          "cornerRadius": {"value": 5},
+          "clip": {"value": true}
         }
       },
-      "on": [
+      "marks": [
         {
-          "events": "pointerdown",
-          "update": "currentPage > 0 ? currentPage - 1 : currentPage"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "encode": {
-        "enter": {
-          "x": {"value": 0},
-          "y": {"value": 0},
-          "fill": {"value": "white"},
-          "fontSize": {"value": 16},
-          "fontWeight": {"value": "bold"},
-          "text": {"value": "Previous"}
-        }
-      }
-    },
-    {
-      "type": "rect",
-      "encode": {
-        "enter": {
-          "x": {"value": 150},
-          "width": {"value": 100},
-          "height": {"value": 30},
-          "fill": {"value": "#ccc"},
-          "cornerRadius": {"value": 5}
+          "type": "text",
+          "from": {"data": "exhibitionTitlesForSelectedCountryYear"},
+          "encode": {
+            "enter": {
+              "x": {"value": 10},
+              "y": {"field": "rank", "mult": 20},
+              "text": {"field": "title"},
+              "fontSize": {"value": 12},
+              "fill": {"value": "black"}
+            }
+          }
         },
-        "update": {
-          "fill": {"value": "#28a745"}
-        }
-      },
-      "on": [
         {
-          "events": "pointerdown",
-          "update": "currentPage < maxPages - 1 ? currentPage + 1 : currentPage"
+          "type": "rect",
+          "encode": {
+            "enter": {
+              "x": {"value": 5},
+              "y": {"value": 115},
+              "width": {"value": 100},
+              "height": {"value": 30},
+              "fill": {"value": "#ccc"},
+              "cornerRadius": {"value": 5}
+            },
+            "update": {
+              "fill": {"value": "#007bff"}
+            }
+          },
+          "signals": [
+          {
+            "name": "currentPage",
+            "on": [
+                {
+                  "events": "pointerdown",
+                  "update": "currentPage - 1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "encode": {
+            "enter": {
+              "x": {"value": 20},
+              "y": {"value": 136},
+              "fill": {"value": "black"},
+              "fontSize": {"value": 16},
+              "fontWeight": {"value": "bold"},
+              "text": {"value": "Previous"}
+            }
+          }
+        },
+        {
+          "type": "rect",
+          "encode": {
+            "enter": {
+              "x": {"value": 275},
+              "y": {"value": 115},
+              "width": {"value": 100},
+              "height": {"value": 30},
+              "fill": {"value": "#ccc"},
+              "cornerRadius": {"value": 5}
+            },
+            "update": {
+              "fill": {"value": "#28a745"}
+            }
+          },
+          "signals": [
+          {
+            "name": "currentPage",
+            "on": [
+                {
+                  "events": "pointerdown",
+                  "update": "currentPage + 1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "encode": {
+            "enter": {
+              "x": {"value": 307},
+              "y": {"value": 136},
+              "fill": {"value": "black"},
+              "fontSize": {"value": 16},
+              "fontWeight": {"value": "bold"},
+              "text": {"value": "Next"}
+            }
+          }
         }
       ]
-    },
-    {
-      "type": "text",
-      "encode": {
-        "enter": {
-          "x": {"value": 200},
-          "y": {"value": 20},
-          "fill": {"value": "white"},
-          "fontSize": {"value": 16},
-          "fontWeight": {"value": "bold"},
-          "text": {"value": "Next"}
-        }
-      }
     }
-  ]
-}
   ],
   "legends": [
     {
