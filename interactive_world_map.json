@@ -88,10 +88,6 @@
         }
       ]
     },
-    {
-     "name": "maxCumulativeExhibitionCount",
-     "update": "data('cityTotalExhibitionCounts').length > 0 ? data('cityTotalExhibitionCounts')[0].max_cumulative_exhibition_count : 10"
-   },
    {
       "name": "currentPage",
       "value": 1
@@ -253,19 +249,6 @@
         }
       ]
     },
-    {
-     "name": "cityTotalExhibitionCounts",
-     "source": "cityExhibitionCounts",
-     "transform": [
-       {
-         "type": "aggregate",
-         "groupby": ["city"],
-         "fields": ["y1"],
-         "ops": ["max"],
-         "as": ["max_cumulative_exhibition_count"]
-       }
-     ]
-   },
    {
      "name": "exhibitionTitlesForSelectedCountryYear",
      "source": "exhibitionsWithoutVenues",
@@ -309,16 +292,9 @@
     {
       "name": "yscaleCountry",
       "type": "linear",
-      "domain": {"data": "cityExhibitionCounts", "field": "exhibition_count"},
+      "domain": {"data": "cityExhibitionCounts", "field": "y1"},
       "range": [200, 0],
       "nice": true
-    },
-    {
-     "name": "yscaleCountryBars",
-     "type": "linear",
-     "domain": [0, {"signal": "maxCumulativeExhibitionCount"}],
-     "range": [200, 0],
-     "nice": true
     },
     {
       "name": "colorTypeScale",
@@ -373,15 +349,15 @@
             "enter": {
               "x": {"scale": "xscaleCountry", "field": "city"},
               "width": {"scale": "xscaleCountry", "band": 1},
-              "y": {"scale": "yscaleCountryBars", "field": "y1"},
-              "y2": {"scale": "yscaleCountryBars", "field": "y0"},
+              "y": {"scale": "yscaleCountry", "field": "y1"},
+              "y2": {"scale": "yscaleCountry", "field": "y0"},
               "fill": {"scale": "colorTypeScale", "field": "type"}
             },
             "update": {
             "x": {"scale": "xscaleCountry", "field": "city"},
             "width": {"scale": "xscaleCountry", "band": 1},
-            "y": {"scale": "yscaleCountryBars", "field": "y1"},
-            "y2": {"scale": "yscaleCountryBars", "field": "y0"},
+            "y": {"scale": "yscaleCountry", "field": "y1"},
+            "y2": {"scale": "yscaleCountry", "field": "y0"},
             "fillOpacity": {"value": 1}
           },
           "exit": {
