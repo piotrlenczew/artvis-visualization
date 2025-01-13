@@ -39,4 +39,4 @@ Configuration and Dependencies
   - interactive_world_map.json: Contains specifications for Vega.
   - exhibitions_with_countries.csv: Input data for art exhibitions (must be in the same directory as `index.html`).
 - Additional Notes:
-  - World map (world-110m.json) is fetched directly from [Vega Datasets](https://vega.github.io/vega-datasets).
+  - World map (world-110m.json) is fetched directly from the Vega datasets found here: https://vega.github.io/vega-datasets.
