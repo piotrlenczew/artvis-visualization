@@ -115,12 +115,35 @@
       "format": {"type": "csv"}
     },
     {
+      "name": "country_names",
+      "url": "./country_names.csv",
+      "format": {"type": "csv"}
+    },
+    {
+      "name": "countries_with_names",
+      "source": "countries",
+      "transform": [
+        {
+          "type": "formula",
+          "as": "id",
+          "expr": "toString(datum.id)"
+        },
+        {
+          "type": "lookup",
+          "from": "country_names",
+          "key": "id",
+          "fields": ["id"],
+          "as": ["country"]
+        }
+      ]
+    },
+    {
       "name": "exhibitionsWithoutVenues",
       "source": "exhibitions",
       "transform": [
         {
           "type": "aggregate",
-          "groupby": ["country_id", "country", "startdate", "title", "city", "title", "type"]
+          "groupby": ["country_id", "country", "startdate", "title", "city", "title", "type", "country_name"]
         }
       ]
     },
@@ -130,11 +153,11 @@
       "transform": [
         {
           "type": "aggregate",
-          "groupby": ["country_id", "country", "startdate", "title"]
+          "groupby": ["country_id", "country", "startdate", "title", "country_name"]
         },
         {
           "type": "aggregate",
-          "groupby": ["country_id", "country", "startdate"],
+          "groupby": ["country_id", "country", "startdate", "country_name"],
           "fields": ["exhibition_count"],
           "ops": ["count"],
           "as": ["exhibition_count"]
@@ -164,7 +187,7 @@
     },
     {
       "name": "countries_with_data",
-      "source": "countries",
+      "source": "countries_with_names",
       "transform": [
         {
           "type": "lookup",
@@ -177,6 +200,21 @@
           "type": "formula",
           "as": "exhibition_count",
           "expr": "datum.exhibition_data ? datum.exhibition_data.exhibition_count : 0"
+        },
+        {
+          "type": "formula",
+          "as": "country_name",
+          "expr": "datum.country ? datum.country.name : 0"
+        }
+      ]
+    },
+    {
+      "name": "selectedCountryExhibitions",
+      "source": "countries_with_data",
+      "transform" : [
+        {
+          "type": "filter",
+          "expr": "datum.id == clickedCountry"
         }
       ]
     },
@@ -356,7 +394,37 @@
           "title": "Exhibition Count"
         }
       ]
+    },
+    {
+  "type": "group",
+  "encode": {
+    "enter": {
+      "x": {"value": 650},
+      "y": {"value": 0},
+      "width": {"value": 400},
+      "height": {"value": 50}
     }
+  },
+  "marks": [
+    {
+      "type": "text",
+      "from": {"data": "selectedCountryExhibitions"},
+      "encode": {
+        "enter": {
+          "x": {"value": 10}, 
+          "y": {"value": 25}, 
+          "fill": {"value": "black"},
+          "fontSize": {"value": 14},
+          "fontWeight": {"value": "bold"},
+          "text": {
+            "signal": "datum.country_name + ' total exhibitions: ' + datum.exhibition_count"
+          }
+        }
+      }
+    }
+  ]
+}
+
   ],
   "legends": [
     {
