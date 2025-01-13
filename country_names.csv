@@ -107,7 +107,7 @@ id,name,short_name,Export_Value_bln,year
 504,Morocco,MA,,2015
 508,Mozambique,MZ,,2015
 104,Myanmar,MM,,2015
-516,Namibia,NA,,2015
+516,Namibia,,,2015
 524,Nepal,NP,,2015
 528,Netherlands,NL,,2015
 540,New Caledonia,NC,,2015
@@ -163,7 +163,7 @@ id,name,short_name,Export_Value_bln,year
 804,Ukraine,UA,,2015
 784,United Arab Emirates,AE,,2015
 826,United Kingdom,GB,,2015
-840,United States,US,3746,2015
+840,United States,US,3746.0,2015
 858,Uruguay,UY,,2015
 860,Uzbekistan,UZ,,2015
 548,Vanuatu,VU,,2015
