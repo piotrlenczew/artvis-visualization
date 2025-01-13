@@ -447,12 +447,92 @@
              "text": {
              "signal": "datum.country_name + ' total exhibitions: ' + datum.exhibition_count"
              }
+           }
+         }
+       }
+     ]
+   },
+   {
+  "type": "group",
+  "encode": {
+    "enter": {
+      "x": {"value": 0},
+      "y": {"value": 0},
+      "width": {"value": 400},
+      "height": {"value": 100}
+    }
+  },
+  "marks": [
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"value": 0},
+          "width": {"value": 100},
+          "height": {"value": 30},
+          "fill": {"value": "#ccc"},
+          "cornerRadius": {"value": 5}
+        },
+        "update": {
+          "fill": {"value": "#007bff"}
+        }
+      },
+      "on": [
+        {
+          "events": "pointerdown",
+          "update": "currentPage > 0 ? currentPage - 1 : currentPage"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 0},
+          "y": {"value": 0},
+          "fill": {"value": "white"},
+          "fontSize": {"value": 16},
+          "fontWeight": {"value": "bold"},
+          "text": {"value": "Previous"}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"value": 150},
+          "width": {"value": 100},
+          "height": {"value": 30},
+          "fill": {"value": "#ccc"},
+          "cornerRadius": {"value": 5}
+        },
+        "update": {
+          "fill": {"value": "#28a745"}
+        }
+      },
+      "on": [
+        {
+          "events": "pointerdown",
+          "update": "currentPage < maxPages - 1 ? currentPage + 1 : currentPage"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 200},
+          "y": {"value": 20},
+          "fill": {"value": "white"},
+          "fontSize": {"value": 16},
+          "fontWeight": {"value": "bold"},
+          "text": {"value": "Next"}
         }
       }
     }
   ]
 }
-
   ],
   "legends": [
     {
