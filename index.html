@@ -1,14 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>World exhibitions 1905-1915</title>
+  <title>World Exhibitions 1902-1916</title>
   <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #E0F7FA; /* Lighter blue shade */
+    }
+
+    #vis {
+      width: 98%; /* Incrementado el ancho para ocupar casi toda la pantalla */
+      max-width: 1800px; /* Mayor tamaño máximo */
+      height: 90vh; /* Ocupa casi toda la altura disponible */
+      margin-top: 40px; /* Espacio superior para separar del título */
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px; /* Espacio entre el título y la visualización */
+      margin-top: 40px; /* Margen superior para mover el título hacia abajo */
+      font-size: 2.5em; /* Tamaño grande y destacado para el título */
+      font-family: 'Georgia', serif; /* Fuente estética para el título */
+      color: #333; /* Color más elegante para el título */
+    }
+  </style>
 </head>
 <body>
-  <h1>Art Exhibitions Around the World between 1905 and 1915</h1>
-  <div id="vis"/>
+  <div>
+    <h1>Art Exhibitions Around the World between 1902 and 1916</h1>
+    <div id="vis"></div>
+  </div>
   <script>
     fetch('./interactive_world_map.json')
       .then(response => {
