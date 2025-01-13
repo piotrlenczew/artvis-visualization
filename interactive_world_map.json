@@ -91,6 +91,10 @@
     {
      "name": "maxCumulativeExhibitionCount",
      "update": "data('cityTotalExhibitionCounts').length > 0 ? data('cityTotalExhibitionCounts')[0].max_cumulative_exhibition_count : 10"
+   },
+   {
+      "name": "currentPage",
+      "value": 1
    }
   ],
   "projections": [
@@ -261,6 +265,30 @@
          "as": ["max_cumulative_exhibition_count"]
        }
      ]
+   },
+   {
+     "name": "exhibitionTitlesForSelectedCountryYear",
+     "source": "exhibitionsWithoutVenues",
+     "transform": [
+      {
+          "type": "filter",
+          "expr": "datum.startdate && datum.startdate == selectedYear"
+        },
+        {
+          "type": "filter",
+          "expr": "datum.country_id == clickedCountry"
+        },
+        {
+         "type": "window",
+         "ops": ["rank"],
+         "fields": ["startdate"],
+         "as": ["rank"]
+        },
+        {
+         "type": "filter",
+         "expr": "datum.rank >= currentPage && datum.rank <= currentPage + 4"
+        }
+     ]
    }
   ],
   "scales": [
@@ -396,29 +424,29 @@
       ]
     },
     {
-  "type": "group",
-  "encode": {
-    "enter": {
-      "x": {"value": 650},
-      "y": {"value": 0},
-      "width": {"value": 400},
-      "height": {"value": 50}
-    }
-  },
-  "marks": [
-    {
-      "type": "text",
-      "from": {"data": "selectedCountryExhibitions"},
-      "encode": {
-        "enter": {
-          "x": {"value": 10}, 
-          "y": {"value": 25}, 
-          "fill": {"value": "black"},
-          "fontSize": {"value": 14},
-          "fontWeight": {"value": "bold"},
-          "text": {
-            "signal": "datum.country_name + ' total exhibitions: ' + datum.exhibition_count"
-          }
+     "type": "group",
+     "encode": {
+       "enter": {
+         "x": {"value": 650},
+         "y": {"value": 0},
+         "width": {"value": 400},
+         "height": {"value": 50}
+       }
+     },
+     "marks": [
+       {
+         "type": "text",
+         "from": {"data": "selectedCountryExhibitions"},
+         "encode": {
+           "enter": {
+             "x": {"value": 10}, 
+             "y": {"value": 25}, 
+             "fill": {"value": "black"},
+             "fontSize": {"value": 14},
+             "fontWeight": {"value": "bold"},
+             "text": {
+             "signal": "datum.country_name + ' total exhibitions: ' + datum.exhibition_count"
+             }
         }
       }
     }
