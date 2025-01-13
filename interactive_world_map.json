@@ -1,15 +1,15 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "description": "An interactive world map supporting pan and zoom.",
-  "width": 900,
-  "height": 500,
+  "width": 1050,
+  "height": 450,
   "autosize": "none",
   "signals": [
-    {"name": "tx", "update": "width / 2"},
+    {"name": "tx", "update": "600 / 2"},
     {"name": "ty", "update": "height / 2"},
     {
       "name": "scale",
-      "value": 150,
+      "value": 800,
       "on": [
         {
           "events": {"type": "wheel", "consume": true},
@@ -54,16 +54,16 @@
     },
     {
       "name": "rotateX",
-      "value": 0,
+      "value": -8,
       "on": [{"events": {"signal": "delta"}, "update": "angles[0] + delta[0]"}]
     },
     {
       "name": "centerY",
-      "value": 0,
+      "value": 50,
       "on": [
         {
           "events": {"signal": "delta"},
-          "update": "clamp(angles[1] + delta[1], -70, 70)"
+          "update": "clamp(angles[1] + delta[1], -60, 60)"
         }
       ]
     },
@@ -87,7 +87,11 @@
           "update": "datum.id"
         }
       ]
-    }
+    },
+    {
+     "name": "maxCumulativeExhibitionCount",
+     "update": "data('cityTotalExhibitionCounts').length > 0 ? data('cityTotalExhibitionCounts')[0].max_cumulative_exhibition_count : 10"
+   }
   ],
   "projections": [
     {
@@ -206,7 +210,20 @@
           "sort": {"field": "exhibition_count", "order": "descending"}
         }
       ]
-    }
+    },
+    {
+     "name": "cityTotalExhibitionCounts",
+     "source": "cityExhibitionCounts",
+     "transform": [
+       {
+         "type": "aggregate",
+         "groupby": ["city"],
+         "fields": ["y1"],
+         "ops": ["max"],
+         "as": ["max_cumulative_exhibition_count"]
+       }
+     ]
+   }
   ],
   "scales": [
     {
@@ -220,7 +237,7 @@
       "name": "xscaleCountry",
       "type": "band",
       "domain": {"data": "cityExhibitionCounts", "field": "city"},
-      "range": [0, 400],
+      "range": [0, 300],
       "padding": 0.1
     },
     {
@@ -229,6 +246,13 @@
       "domain": {"data": "cityExhibitionCounts", "field": "exhibition_count"},
       "range": [200, 0],
       "nice": true
+    },
+    {
+     "name": "yscaleCountryBars",
+     "type": "linear",
+     "domain": [0, {"signal": "maxCumulativeExhibitionCount"}],
+     "range": [200, 0],
+     "nice": true
     },
     {
       "name": "colorTypeScale",
@@ -242,10 +266,11 @@
       "type": "group",
       "encode": {
         "enter": {
-          "x": {"value": 50}, 
-          "y": {"value": 50}, 
-          "width": {"value": 400}, 
-          "height": {"value": 400}
+          "x": {"value": 0}, 
+          "y": {"value": 0}, 
+          "width": {"value": 600}, 
+          "height": {"value": 600},
+          "clip": {"value": true}
         }
       },
       "marks": [
@@ -268,8 +293,8 @@
       "type": "group",
       "encode": {
         "enter": {
-          "x": {"value": 500},
-          "y": {"value": 50},
+          "x": {"value": 650},
+          "y": {"value": 220},
           "width": {"value": 400},
           "height": {"value": 200}
         }
@@ -282,15 +307,15 @@
             "enter": {
               "x": {"scale": "xscaleCountry", "field": "city"},
               "width": {"scale": "xscaleCountry", "band": 1},
-              "y": {"scale": "yscaleCountry", "field": "y1"},
-              "y2": {"scale": "yscaleCountry", "field": "y0"},
+              "y": {"scale": "yscaleCountryBars", "field": "y1"},
+              "y2": {"scale": "yscaleCountryBars", "field": "y0"},
               "fill": {"scale": "colorTypeScale", "field": "type"}
             },
             "update": {
             "x": {"scale": "xscaleCountry", "field": "city"},
             "width": {"scale": "xscaleCountry", "band": 1},
-            "y": {"scale": "yscaleCountry", "field": "y1"},
-            "y2": {"scale": "yscaleCountry", "field": "y0"},
+            "y": {"scale": "yscaleCountryBars", "field": "y1"},
+            "y2": {"scale": "yscaleCountryBars", "field": "y0"},
             "fillOpacity": {"value": 1}
           },
           "exit": {
@@ -307,18 +332,10 @@
                 "scale": "xscaleCountry",
                 "field": "city",
                 "band": 0.5
-              },
-              "y": {"scale": "yscaleCountry", "field": "exhibition_count", "offset": -5},
-              "text": {"field": "exhibition_count"},
-              "align": {"value": "center"},
-              "baseline": {"value": "bottom"},
-              "fill": {"value": "black"}
+              }
             },
             "update": {
-              "x": {"scale": "xscaleCountry", "field": "city", "band": 0.5},
-              "y": {"scale": "yscaleCountry", "field": "exhibition_count", "offset": -5},
-              "text": {"field": "exhibition_count"},
-              "fillOpacity": {"value": 1}
+              "x": {"scale": "xscaleCountry", "field": "city", "band": 0.5}
             },
             "exit": {
               "fillOpacity": {"value": 0}
@@ -350,7 +367,15 @@
     {
       "fill": "colorTypeScale",
       "title": "Exhibition Type",
-      "orient": "none"
+      "orient": "none",
+      "encode": {
+        "legend": {
+          "enter": {
+            "x": {"value": 800},
+            "y": {"value": 50}
+          }
+        }
+      }
     }
   ],
   "config": {}
