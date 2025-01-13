@@ -10,6 +10,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       min-height: 100vh;
       margin: 0;
       font-family: Arial, sans-serif;
@@ -17,21 +18,21 @@
     }
 
     #vis {
-      width: 80%;
-      max-width: 800px;
+      width: 90%; /* Incrementado el ancho relativo */
+      max-width: 1200px; /* Incrementado el tamaño máximo */
+      height: 90vh; /* Altura proporcional al viewport */
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px; /* Reducido el espacio inferior */
+      font-size: 1.5em; /* Ajuste del tamaño del texto */
     }
   </style>
 </head>
 <body>
-  <div>
-    <h1>Art Exhibitions Around the World between 1905 and 1915</h1>
-    <div id="vis"></div>
-  </div>
+  <h1>Art Exhibitions Around the World between 1905 and 1915</h1>
+  <div id="vis"></div>
   <script>
     fetch('./interactive_world_map.json')
       .then(response => {
