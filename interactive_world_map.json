@@ -89,24 +89,28 @@
       ]
     },
     {
+      "name": "totalExhibitions",
+      "update": "data('selectedCountryExhibitions')[0] ? data('selectedCountryExhibitions')[0].exhibition_count : 0"
+    },
+    {
       "name": "currentPage",
       "value": 1,
       "on": [
         {
           "events": {"type": "click", "marktype": "rect", "markname": "prevButton"},
-          "update": "currentPage - 1"
+          "update": "max(currentPage - 1, 1)"
         },
         {
           "events": {"type": "click", "marktype": "rect", "markname": "nextButton"},
-          "update": "currentPage + 1"
+          "update": "min(currentPage + 1, totalExhibitions)"
         },
         {
           "events": {"type": "click", "marktype": "text", "markname": "prevButtonText"},
-          "update": "currentPage - 1"
+          "update": "max(currentPage - 1, 1)"
         },
         {
           "events": {"type": "click", "marktype": "text", "markname": "nextButtonText"},
-          "update": "currentPage + 1"
+          "update": "min(currentPage + 1, totalExhibitions)"
         },
         {
           "events": "shape:click",
@@ -284,6 +288,10 @@
           "expr": "datum.country_id == clickedCountry"
         },
         {
+          "type": "aggregate",
+          "groupby": ["title"]
+        },
+        {
          "type": "window",
          "ops": ["rank"],
          "fields": ["startdate"],
@@ -450,17 +458,17 @@
              "text": {
              "signal": "datum.country_name + ' total exhibitions: ' + datum.exhibition_count"
              }
-           },
-           "update": {
-              "text": {
-                "signal": "datum.country_name + ' total exhibitions: ' + datum.exhibition_count"
-              }
+            },
+            "update": {
+            "text": {
+              "signal": "datum.country_name + ' total exhibitions: ' + datum.exhibition_count"
             }
           }
-        }
-      ]
-    },
-    {
+         }
+       }
+     ]
+   },
+   {
       "type": "group",
       "encode": {
         "enter": {
