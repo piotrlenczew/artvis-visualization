@@ -69,7 +69,7 @@
     },
     {
       "name": "selectedYear",
-      "value": 1907,
+      "value": 1908,
       "bind": {
         "input": "range",
         "min": 1902,
