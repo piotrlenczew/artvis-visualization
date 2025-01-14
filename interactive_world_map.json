@@ -107,6 +107,10 @@
         {
           "events": {"type": "click", "marktype": "text", "markname": "nextButtonText"},
           "update": "currentPage + 1"
+        },
+        {
+          "events": "shape:click",
+          "update": "1"
         }
       ]
     }
