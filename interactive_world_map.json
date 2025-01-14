@@ -504,10 +504,7 @@
               "fill": {"value": "#ccc"},
               "cornerRadius": {"value": 5}
             }
-          },
-          "update": {
-              "fill": {"value": "#007bff"}
-            }
+          }
         },
         {
           "type": "text",
@@ -534,9 +531,6 @@
               "height": {"value": 30},
               "fill": {"value": "#ccc"},
               "cornerRadius": {"value": 5}
-            },
-            "update": {
-              "fill": {"value": "#28a745"}
             }
           }
         },
