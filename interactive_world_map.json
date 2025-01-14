@@ -496,7 +496,8 @@
               "fill": {"value": "black"}
             },
             "update": {
-              "y": {"signal": "datum.adjustedRank * 20"}
+              "y": {"signal": "(datum.adjustedRank) * 20"},
+              "text": {"signal": "datum.rank + '. ' + datum.title"}
             }
           }
         },
