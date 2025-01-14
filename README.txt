@@ -2,7 +2,9 @@
 World Art Exhibitions (1902-1916) Interactive Visualization
 
 General Information
-- Project Title: World Art Exhibitions (1902-1916) Interactive Visualization (https://piotrlenczew.github.io/artvis-visualization/)
+- Project Title: World Art Exhibitions (1902-1916) 
+   Github link: https://github.com/piotrlenczew/artvis-visualization
+   Interactive Visualization: https://piotrlenczew.github.io/artvis-visualization/
 - Authors: Piotr Lenczewski, Pablo Pardo, Jorge Bailez
 - Date: January 16, 2025
 
