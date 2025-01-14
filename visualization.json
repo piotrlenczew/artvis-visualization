@@ -357,7 +357,7 @@
           "encode": {
             "enter": {
               "fill": {"scale": "colorScale", "field": "exhibition_count"},
-              "stroke": {"value": "#ffffff"},
+              "stroke": {"value": "#999999"},
               "strokeWidth": {"value": 0.5}
             },
           "update": {"fill": {"scale": "colorScale", "field": "exhibition_count"}}
