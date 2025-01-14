@@ -335,7 +335,7 @@
       "name": "colorTypeScale",
       "type": "ordinal",
       "domain": {"data": "exhibitionsWithoutVenues", "field": "type"},
-      "range": ["#654321", "#808080", "#00008b"]
+      "range": ["#A0522D", "#A9A9A9", "#0000FF"]
     }
   ],
   "marks": [
