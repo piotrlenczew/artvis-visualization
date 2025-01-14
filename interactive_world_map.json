@@ -69,7 +69,7 @@
     },
     {
       "name": "selectedYear",
-      "value": 1902,
+      "value": 1907,
       "bind": {
         "input": "range",
         "min": 1902,
@@ -80,7 +80,7 @@
     },
     {
       "name": "clickedCountry",
-      "value": 4,
+      "value": 250,
       "on": [
         {
           "events": "shape:click",
@@ -288,6 +288,11 @@
         {
          "type": "filter",
          "expr": "datum.rank >= currentPage && datum.rank <= currentPage + 4"
+        },
+        {
+          "type": "formula",
+          "as": "adjustedRank",
+          "expr": "datum.rank - (currentPage - 1)"
         }
      ]
    }
@@ -468,10 +473,13 @@
           "encode": {
             "enter": {
               "x": {"value": 10},
-              "y": {"field": "rank", "mult": 20},
-              "text": {"field": "title"},
+              "y": {"signal": "datum.adjustedRank * 20"},
+              "text": {"signal": "datum.rank + '. ' + datum.title"},
               "fontSize": {"value": 12},
               "fill": {"value": "black"}
+            },
+            "update": {
+              "y": {"signal": "datum.adjustedRank * 20"}
             }
           }
         },
