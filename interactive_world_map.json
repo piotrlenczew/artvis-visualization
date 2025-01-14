@@ -450,12 +450,17 @@
              "text": {
              "signal": "datum.country_name + ' total exhibitions: ' + datum.exhibition_count"
              }
-           }
-         }
-       }
-     ]
-   },
-   {
+           },
+           "update": {
+              "text": {
+                "signal": "datum.country_name + ' total exhibitions: ' + datum.exhibition_count"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       "type": "group",
       "encode": {
         "enter": {
