@@ -32,7 +32,8 @@ How to Run the Program
    - index.html
    - interactive_world_map.json
    - exhibitions_with_countries.csv
-2. Open the index.html file in a compatible browser.
+2. Run 'python -m http.server 8000' command to create local server (needed due to CORS blocking local file access).
+3. Open 'http://localhost:8000/index.html' in your browser.
 
 Command Line Parameters
 This project does not use command-line parameters, as it is designed to run in a web environment.
@@ -40,6 +41,6 @@ This project does not use command-line parameters, as it is designed to run in a
 Configuration and Dependencies
 - Configuration Files:
   - visualization.json: Contains specifications for Vega.
-  - exhibitions_with_countries.csv: Input data for art exhibitions (must be in the same directory as `index.html`).
+  - exhibitions_with_countries.csv: Input data for art exhibitions.
 - Additional Notes:
   - World map (world-110m.json) is fetched directly from the Vega datasets found here: https://vega.github.io/vega-datasets.
