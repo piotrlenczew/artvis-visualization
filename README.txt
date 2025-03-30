@@ -15,9 +15,10 @@ Libraries and Tools Used
    - Vega-Embed v6.26.0 (License: BSD-3-Clause)
 
 2. Data Files:
-   - interactive_world_map.json:
+   - visualization.json:
      - Interactive Map: Uses geographical data from `world-110m.json` (Vega Datasets).
-     - Exhibition Data: Loaded from the local CSV file `exhibitions_with_countries.csv`.
+     - Exhibition Data: Loaded from the local CSV file `exhibitions_with_countries.csv` (derived from dataset https://exhibitions.univie.ac.at/).
+     - Country id to name map: Additional file containing data to join above datasets.
 
 Development Environment
 - Text Editor or IDE: Vega Editor
@@ -38,7 +39,7 @@ This project does not use command-line parameters, as it is designed to run in a
 
 Configuration and Dependencies
 - Configuration Files:
-  - interactive_world_map.json: Contains specifications for Vega.
+  - visualization.json: Contains specifications for Vega.
   - exhibitions_with_countries.csv: Input data for art exhibitions (must be in the same directory as `index.html`).
 - Additional Notes:
   - World map (world-110m.json) is fetched directly from the Vega datasets found here: https://vega.github.io/vega-datasets.
